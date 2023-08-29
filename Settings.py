@@ -1,6 +1,7 @@
-from datetime import timedelta,datetime
+from datetime import datetime,timedelta
 from hijri_converter import Gregorian
 #-------------------------------All-------------------------------
+
 fontStyle =  "Arial"
 background = '#000037' #'#000023'
 foreground = 'white' #'#e8d0bc'
@@ -49,10 +50,10 @@ def last_day(d, day_name):
     return d + timedelta(days=delta_day)
 marchLastSunday = last_day(datetime(datetime.now().year,4,1),'sunday')
 octoberLastSunday = last_day(datetime(datetime.now().year,11,1),'sunday')
-JummahTimes = "1:00"
+JummahTimes = "1:00 | 1:20"
 
 if datetime.now() >= marchLastSunday and datetime.now()<octoberLastSunday: # summer time jummah times go here
-    JummahTimes = "2:00"
+    JummahTimes = "1:30 | 1:50"
 
 jummahXpos=0.5
 jummahYpos=0.9+l
@@ -66,10 +67,10 @@ y1=-0.07
 x1=0.052
 x2=0.004
 
-logoWidth = 400
-logoLength = 140
-logoPositioningRelx = 0.5
-logoPositioningRely = 0.64+l
+BMA_logoWidth = 400
+BMA_logoLength = 140
+BMA_logoPositioningRelx = 0.5
+BMA_logoPositioningRely = 0.64+l
 
 # -------------------------------Ramadan class-------------------------------
 DailyMessageImgWidth = 1700
