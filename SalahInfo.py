@@ -9,13 +9,12 @@ class SalahInfo:
 		self.allTimes = json.load(open("times.json"))
 		self.startI=0
 		self.salahI=0
-		# self.getI()
 		self.salahTimes = None
 		self.salahTimesObj = None
 		self.startTimes = None
-		# self.getSalahs()
+		self.todayTimes = None
+		self.tmrroTimes = None
 		self.setJamaahStartTimes()
-		print(self.salahTimes)
 	def setJamaahStartTimes(self):
 		today = datetime.today()
 		if today.date() != datetime.now().date().replace(month=12, day=31):
@@ -23,9 +22,6 @@ class SalahInfo:
 			self.tmrroTimes = self.allTimes[tommorrow.month-1][tommorrow.day-1]
 		self.todayTimes = self.allTimes[today.month-1][today.day-1]
 		self.getSalahs()
-	# create salah times object 
-	# returns salah in an array form
-	# returns start in an array form
 	def getSalahs(self):
 		self.salahTimes = self.returnTimes(True)
 		self.salahTimesObj = objTime(self.salahTimes,subtractMin=minsBeforeSalah)
