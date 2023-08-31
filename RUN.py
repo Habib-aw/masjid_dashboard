@@ -99,7 +99,7 @@ try:
             maxImgWidth=1900
             maxImgHeight=875
             try:
-                openedImage = Image.open("images/downloadedImages"+iSlides[i]['imageName'])
+                openedImage = Image.open("images/downloadedImages/"+iSlides[i]['imageName'])
             except:
                 openedImage = Image.open("images/noImgFound.png")
             width, height = openedImage.size
@@ -118,7 +118,6 @@ for i in range(len(normalSlides)):
     allSlides[normalSlides[i][1]] = normalSlides[i][0]
 for i in range(len(imageSlides)):
     allSlides[imageSlides[i][1]] = imageSlides[i][0]
-print(allSlides)
 slideshow.addAll(allSlides)
 try:
     slideshow.add(gatheringSlide)
