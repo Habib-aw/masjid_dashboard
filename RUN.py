@@ -19,7 +19,7 @@ import json
 
 
 root = Tk()
-salahInfo= SalahInfo() 
+salahInfo= SalahInfo()
 tmrroData = salahInfo.checkAnnouncemennts()
 changes = tmrroData[1]
 announcements = tmrroData[0]
@@ -60,19 +60,6 @@ if hijri.month_name() =="Ramadhan":
         eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:30 AM\n\n3rd Jama'ah: 9:30 AM",contentFont=100,bg='black')
     if ramadanDay <= 12 and hijri.year == 1444:
         gatheringSlide = Slide(root, title="Iftaar gathering this monday",titleFont=100,content="On monday 3rd of April (12th Ramadan),\nBaitul Mamur Academy would like to invite you to an iftaar gathering,\nPlease come and bring your friends & family to this barakah filled event\nWe look forward to seeing you all\nInsha'Allah",contentFont=65)
-def getImageSlide(imageName,title,maxImgWidth=1900,maxImgHeight=875):
-    try:
-        openedImage = Image.open("images/"+imageName)
-    except:
-        openedImage = Image.open("images/noImgFound.png")
-    width, height = openedImage.size
-    imgWidth = round((width/height)*maxImgHeight)
-    imgHeight = maxImgHeight
-    if imgWidth>maxImgWidth:
-        imgWidth=maxImgWidth
-        imgHeight=round((height/width)*maxImgWidth)
-    image = ImageTk.PhotoImage(openedImage.resize((imgWidth,imgHeight),Image.Resampling.LANCZOS))
-    return Slide(root,None,image=image,title=title)
 
 
 s1.packSlide()
@@ -91,13 +78,20 @@ try:
         for i in range(len(nSlides)):
             normalSlides.append([Slide(root,
         title=nSlides[i]['title'],
+        titleFont=45+(nSlides[i]['font']['textFactor']*5),
         content=nSlides[i]['text'],
-        contentFont=60
+        contentFont=35+(nSlides[i]['font']['textFactor']*5),
+        bg=nSlides[i]['colour']['slide'],
+        time=nSlides[i]['displayTime'],
+        fg=nSlides[i]['colour']['text'],
+        titleFg=nSlides[i]['colour']['title'],
         ),nSlides[i]['order']])
     if(not (isinstance(iSlides,str))):
         for i in range(len(iSlides)):
             maxImgWidth=1900
-            maxImgHeight=875
+            maxImgHeight=870
+            if iSlides[i]['title'] !="":
+                maxImgHeight=780
             try:
                 openedImage = Image.open("images/downloadedImages/"+iSlides[i]['imageName'])
             except:
@@ -109,7 +103,11 @@ try:
                 imgWidth=maxImgWidth
                 imgHeight=round((height/width)*maxImgWidth)
             image = ImageTk.PhotoImage(openedImage.resize((imgWidth,imgHeight),Image.Resampling.LANCZOS))
-            imageSlides.append([Slide(root,None,image=image,title=iSlides[i]['title']),iSlides[i]['order']])
+            imageSlides.append([Slide(root,None,image=image,title=iSlides[i]['title'],
+        bg=iSlides[i]['colour']['slide'],
+        time=iSlides[i]['displayTime'],
+        titleFont=45+(iSlides[i]['font']['textFactor']*5),
+        titleFg=iSlides[i]['colour']['title']),iSlides[i]['order']])
 except Exception as e:
     print("error",e)
     pass
@@ -137,6 +135,9 @@ except:
     pass
 t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None)
 slideshow.redoTimes()
+root.bind('<space>',slideshow.forceNext)
+root.bind('<Right>',slideshow.forceNext)
+root.bind('<Left>',slideshow.forcePrev)
 root.config(bg=background)
 root.attributes('-fullscreen',True)
 root.mainloop()

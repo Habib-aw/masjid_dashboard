@@ -4,28 +4,7 @@ from tkinter import Frame,Label
 import schedule
 from Settings import clockFont,dateFont, fontStyle,background,foreground
 import os
-import subprocess
 
-def connectedToInternet():
-    import requests
-    url = "https://www.google.com/"
-    try:
-        requests.get(url, timeout=10)
-        return True
-    except (requests.ConnectionError, requests.Timeout):
-        return False
-
-
-def gitPull():
-    if connectedToInternet():
-        cmd = [ 'git', 'pull']
-        output = subprocess.Popen( cmd, stdout=subprocess.PIPE ).communicate()[0]
-        if "Already up-to-date." in str(output):
-            pass
-        elif "Error" in str(output):
-            pass
-        elif "Updating" in str(output):
-            os.system("sudo reboot")
 class Footer:
     def __init__(self,root):
         dates = getDates()
@@ -38,7 +17,6 @@ class Footer:
         self.hDate = Label(self.frame1,text=dates[1],font=(fontStyle,dateFont-12,"bold"),bg=foreground,fg=background)
         self.split = Label(self.frame1,text=" | ",font=(fontStyle,dateFont,"bold"),bg=foreground,fg=background)
         self.packFooter()
-        # schedule.every(30).seconds.do(gitPull)
         self.repeater()
         self.check = True
     def repeater(self):

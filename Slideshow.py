@@ -73,11 +73,51 @@ class Slideshow:
                 if self.count == self.ptr.prev.val.time:
                     self.ptr.prev.val.forgetP()
                     self.ptr.val.packSlide()
-                    if self.ptr.val.announce:
-                        self.root.config(bg='red')
-                    else:
-                        self.root.config(bg=background)
+                    # if self.ptr.val.announce:
+                    #     self.root.config(bg='red')
+                    # else:
+                    #     self.root.config(bg=background)
                     self.ptr= self.ptr.next
+                if self.count == self.max:
+                    self.count = 0
+            else:
+                try:
+                    self.head.val.packSlide()
+                except:
+                    pass
+        else:
+            self.ptr.prev.val.forgetP()
+    def forceNext(self,event=None):
+        if not self.timerOn:
+            if self.size > 1:
+                self.count=self.ptr.prev.val.time
+                self.ptr.prev.val.forgetP()
+                self.ptr.val.packSlide()
+                # if self.ptr.val.announce:
+                #     self.root.config(bg='red')
+                # else:
+                #     self.root.config(bg=background)
+                self.ptr= self.ptr.next
+                if self.count == self.max:
+                    self.count = 0
+            else:
+                try:
+                    self.head.val.packSlide()
+                except:
+                    pass
+        else:
+            self.ptr.prev.val.forgetP()
+    def forcePrev(self,event=None):
+        if not self.timerOn:
+            if self.size > 1:
+                self.ptr.prev.val.packSlide()
+                self.count=self.ptr.prev.prev.val.time
+                self.ptr.val.forgetP()
+                # if self.ptr.val.announce:
+                #     self.root.config(bg='red')
+                # else:
+                #     self.root.config(bg=background)
+                self.ptr= self.ptr.prev
                 if self.count == self.max:
                     self.count = 0
             else:

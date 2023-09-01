@@ -24,16 +24,16 @@ class SalahInfo:
 		self.getSalahs()
 	def getSalahs(self):
 		self.salahTimes = self.returnTimes(True)
-		self.salahTimesObj = objTime(self.salahTimes,subtractMin=minsBeforeSalah)
+		self.salahTimesObj = objTime(self.returnTimes(True),subtractMin=minsBeforeSalah)
 		self.startTimes =self.returnTimes(False)
     #creates an array with [fajrTime,zuhrTime,..]
 	def returnTimes(self,salah):
 		if(salah):
-			return [self.todayTimes['Fajr_jamaah'],
-				self.todayTimes['Zuhr_jamaah'],
-				self.todayTimes['Asr_jamaah'],
-				self.todayTimes['Maghrib_jamaah'],
-				self.todayTimes['Isha_jamaah']]
+			return [['Fajr',self.todayTimes['Fajr_jamaah']],
+				['Zuhr',self.todayTimes['Zuhr_jamaah']],
+				['Asr',self.todayTimes['Asr_jamaah']],
+				['Maghrib',self.todayTimes['Maghrib_jamaah']],
+				['Isha',self.todayTimes['Isha_jamaah']]]
 		return [['STRT: '+self.todayTimes['Fajr_start'],'END: '+self.todayTimes['Sunrise']],
             'STRT: '+self.todayTimes['Zuhr_start'],
             'STRT: '+self.todayTimes['Asr_start1'],
@@ -44,7 +44,7 @@ class SalahInfo:
 		return self.salahTimesObj[i][1].strftime("%I:%M:%S %p")
 	# returns salah time at index i
 	def get(self,i):
-		return self.salahTimes[i]
+		return self.salahTimes[i][1]
 	# 
 	def checkAnnouncemennts(self):
 		announcements = []
@@ -52,10 +52,10 @@ class SalahInfo:
 		if datetime.today().date() != datetime.now().date().replace(month=12, day=31):
 			tmrroSalahs = self.tmrroJamaahTimes()
 			for i in range(5):
-				if self.salahTimes[i] !=tmrroSalahs[i]:
+				if self.salahTimes[i][1] !=tmrroSalahs[i]:
 					changes.append([self.salahTimesObj[i][1],tmrroSalahs[i],i])
 				if  i!=3:
-					if self.salahTimes[i] !=tmrroSalahs[i]:
+					if self.salahTimes[i][1] !=tmrroSalahs[i]:
 						announcements.append([i,tmrroSalahs[i]])
 		return [announcements,changes]
 	def tmrroJamaahTimes(self):
@@ -73,13 +73,13 @@ class SalahInfo:
 def objTime(arr,addMin=0,subtractMin=0):
 	salahNames = ["Fajr","Zuhr","Asr","Maghrib","Isha"]
 	newArr = arr.copy()
-	newArr[0] += " AM"
+	newArr[0][1] += " AM"
 	for i in range(1,len(arr)):
-		newArr[i]+= " PM"
+		newArr[i][1]+= " PM"
 	for i in range(len(newArr)):
-		if "-" in newArr[i]:
+		if "-" in newArr[i][1]:
 			continue
-		newArr[i] = datetime.strptime(newArr[i],"%I:%M %p")+timedelta(minutes=addMin)-timedelta(minutes=subtractMin)
+		newArr[i] = datetime.strptime(newArr[i][1],"%I:%M %p")+timedelta(minutes=addMin)-timedelta(minutes=subtractMin)
 	for i in range(len(arr)):
 		newArr[i] = [salahNames[i],newArr[i]]
 	return newArr

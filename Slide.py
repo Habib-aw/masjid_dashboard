@@ -2,11 +2,11 @@ from datetime import datetime,timedelta
 from tkinter import Frame,Label
 from Settings import background, foreground
 class Slide:
-	def __init__(self,root, content,contentFont=35,title=None,titleFont=55,whatTime=None,time=7,howLong=5,frame=None,paddingCtop=10,fg=foreground,bg=background,image=None,announce=False,wraplength=None,smallContent=None,smallContentFont=None):
+	def __init__(self,root, content,contentFont=35,title=None,titleFont=55,whatTime=None,time=7,howLong=5,frame=None,paddingCtop=10,fg=foreground,titleFg=foreground,bg=background,image=None,announce=False,wraplength=None,smallContent=None,smallContentFont=None):
 		if frame !=None:
 			self.frame = frame
 		else:
-			self.createFrame(root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont)
+			self.createFrame(root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont,titleFg)
 		if whatTime == None:
 			self.time = time
 		else:
@@ -14,13 +14,12 @@ class Slide:
 			self.howLong = timedelta(minutes=howLong)
 		self.announce = announce
 	def packSlide(self):
-		self.frame.pack()
+		self.frame.pack(fill="both",expand=1)
 	def forgetP(self):
 		self.frame.pack_forget()
-	def createFrame(self,root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont):
+	def createFrame(self,root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont,titleFg):
 		self.frame =Frame(root,bg=bg,width=root.winfo_screenwidth())
 		self.inFrame = Frame(self.frame,bg=background)
-		self.inFrame.pack(side='bottom')
 		if image ==None:
 			if wraplength == None:
 				wraplength=root.winfo_screenwidth()-200
@@ -40,5 +39,6 @@ class Slide:
 			self.imageLabel.pack(side='left')
 			self.content.pack(side='right')
 		if title != None:
-			self.title = Label(self.frame,text=title,font=('Arial',titleFont,'underline','bold'),bg=bg,fg=fg)
+			self.title = Label(self.frame,text=title,font=('Arial',titleFont,'underline','bold'),bg=bg,fg=titleFg)
 			self.title.pack(side="top")
+		self.inFrame.pack()
