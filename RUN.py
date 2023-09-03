@@ -103,11 +103,14 @@ try:
                 imgWidth=maxImgWidth
                 imgHeight=round((height/width)*maxImgWidth)
             image = ImageTk.PhotoImage(openedImage.resize((imgWidth,imgHeight),Image.Resampling.LANCZOS))
-            imageSlides.append([Slide(root,None,image=image,title=iSlides[i]['title'],
+            imageSlides.append([Slide(root,None,
+        image=image,
+        title=iSlides[i]['title'],
         bg=iSlides[i]['colour']['slide'],
         time=iSlides[i]['displayTime'],
-        titleFont=45+(iSlides[i]['font']['textFactor']*5),
-        titleFg=iSlides[i]['colour']['title']),iSlides[i]['order']])
+        titleFont=45+(iSlides[i]['font']['titleFactor']*5),
+        titleFg=iSlides[i]['colour']['title']),
+        iSlides[i]['order']])
 except Exception as e:
     print("error",e)
     pass
