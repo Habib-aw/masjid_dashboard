@@ -17,14 +17,23 @@ from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
 
-
+db = open('db.json')
+data = json.load(db)
+db.close()
+dateAndTime = data["dateAndTime"]
+time = dateAndTime['time']
+gDate = dateAndTime['gregorianDate']
+hDate = dateAndTime['hijriDate']
+announcementsData = data['announcements']
+countdown = data['countdown']
+salahCountdown = countdown['salah']
 root = Tk()
 salahInfo= SalahInfo()
 tmrroData = salahInfo.checkAnnouncemennts()
 changes = tmrroData[1]
 announcements = tmrroData[0]
 slideshow =Slideshow(root)
-f =Footer(root)
+f =Footer(root,time['on'],time['textColour'],time['backgroundColour'],gDate['on'],gDate['textColour'],gDate['backgroundColour'],hDate['on'],hDate['textColour'],hDate['backgroundColour'])
 sTimes = salahInfo.startTimes
 timeChanges = salahInfo.tmrroStartTimes()
 salahContinerframe =Frame(root,bg=background,height=root.winfo_screenheight()-150,width=root.winfo_screenwidth())
@@ -68,12 +77,9 @@ normalSlides = []
 imageSlides = []
 
 try:
-    f = open('db.json')
-    data = json.load(f)
     slides = data['slides']
     nSlides = slides['normalSlide']
     iSlides = slides['imageSlide']
-    f.close()
     if(not (isinstance(nSlides,str))):
         for i in range(len(nSlides)):
             normalSlides.append([Slide(root,
@@ -136,7 +142,7 @@ try:
     slideshow.add(eidMubarakSlide)
 except:
     pass
-t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None)
+t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 slideshow.redoTimes()
 root.bind('<space>',slideshow.forceNext)
 root.bind('<Right>',slideshow.forceNext)

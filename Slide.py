@@ -14,7 +14,7 @@ class Slide:
 			self.howLong = timedelta(minutes=howLong)
 		self.announce = announce
 	def packSlide(self):
-		self.frame.pack(fill="both",expand=1)
+		self.frame.pack(side='top',fill="both",expand=1)
 	def forgetP(self):
 		self.frame.pack_forget()
 	def createFrame(self,root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont,titleFg):
@@ -41,4 +41,4 @@ class Slide:
 		if title != None:
 			self.title = Label(self.frame,text=title,font=('Arial',titleFont,'underline','bold'),bg=bg,fg=titleFg)
 			self.title.pack(side="top")
-		self.inFrame.pack()
+		self.inFrame.pack(side='top')

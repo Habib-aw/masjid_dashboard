@@ -1,7 +1,7 @@
 from datetime import timedelta,datetime,date
 from tkinter import Label
 import schedule
-from Settings import background,foreground,fontStyle,salahIn2Font,salahIn2PaddingTop,salahIn2SpaceBetween,announcementContentFont,salahIn2Bg,phonSwitchFont,minsBeforeSalah,isRamadan
+from Settings import background,foreground,fontStyle,salahIn2Font,salahIn2PaddingTop,salahIn2SpaceBetween,announcementContentFont,salahIn2Bg,phonSwitchFont,isRamadan
 from Slide import Slide
 from audioplayer import AudioPlayer
 from threading import Thread
@@ -24,8 +24,15 @@ def playBeep():
 announceMsg1 ="Insha'Allah\nFrom tomorrow "
 announceMsg2 = " salah\nwill be at"
 class Timer:
-    def __init__(self,root,salahObj,Frames,changes,announcements,timesChanges,salahLabels,ramadan) -> None:
+    def __init__(self,root,salahObj,Frames,changes,announcements,timesChanges,salahLabels,ramadan,keepMinutesAnnouncements,slideshowAnnouncement,staticSlide,salahCountBefore,salahDisplayText,salahKeepMinutes,salahCountdownOn) -> None:
         self.salahNames = ["Fajr","Zuhr","Asr","Maghrib","Isha"]
+        self.keepMinutesAnnouncements = keepMinutesAnnouncements
+        self.slideshowAnnouncement = slideshowAnnouncement
+        self.staticSlide=staticSlide
+        self.salahCountBefore=salahCountBefore
+        self.salahDisplayText=salahDisplayText
+        self.salahKeepMinutes=salahKeepMinutes
+        self.salahCountdownOn=salahCountdownOn
         self.root = root
         self.salahObj= salahObj
         self.nextSalah = None
@@ -47,10 +54,10 @@ class Timer:
         self.otherSalahs= Label(root,fg="White",bg="red",font=("Arial",60,"bold"))
         self.announcementVoiced= False
         self.zhikrSet = False
-        if announcements !=[]:
+        if announcements !=[] and self.slideshowAnnouncement:
             self.sa = Slide(self.root,title="Announcements",content="",contentFont=announcementContentFont,fg="white",bg="red",paddingCtop=0,announce=True)
             self.otherFrame[1].add(self.sa)
-        self.setAnnouncements()
+            self.setAnnouncements()
         schedule.every(0.2).seconds.do(self.countingDown)
         self.cDownVar = ""
     def getNextSalah(self):
@@ -68,11 +75,11 @@ class Timer:
         self.nextSalah=nextSalah
     def countingDown(self):
         currentTime = datetime.now().strftime("%I:%M:%S %p")
-        if self.nextSalah[1] <=toStrp(currentTime) and toStrp(currentTime)<=(self.nextSalah[1]+timedelta(minutes=minsBeforeSalah)):
-            cDown = datetime.combine(date.min, (self.nextSalah[1]+timedelta(minutes=minsBeforeSalah)).time()) - datetime.combine(date.min, toStrp(currentTime).time())
+        if self.nextSalah[1] <=toStrp(currentTime) and toStrp(currentTime)<=(self.nextSalah[1]+timedelta(minutes=self.salahCountBefore)):
+            cDown = datetime.combine(date.min, (self.nextSalah[1]+timedelta(minutes=self.salahCountBefore)).time()) - datetime.combine(date.min, toStrp(currentTime).time())
             self.cDownVar = str(cDown).replace("0:0","")
             self.cDownVar = str(self.cDownVar).replace("0:","")
-            if not self.announcementSet and not self.zhikrSet:
+            if self.salahCountdownOn and not self.announcementSet and not self.zhikrSet:
                 self.otherFrame[0].unpackFooter()
                 self.otherFrame[1].setTimerOn(True)
                 self.countdown.pack(ipady=salahIn2PaddingTop)
@@ -85,18 +92,23 @@ class Timer:
                         Thread(target=play).start()
                         self.threadStarted=True
                 if self.cDownVar == "0":
+                    if not self.salahCountdownOn:
+                        self.countdown.pack(ipady=salahIn2PaddingTop)
+                        self.otherFrame[0].unpackFooter()
+                        self.otherFrame[1].setTimerOn(True)
+                        self.root.config(bg=salahIn2Bg)
                     self.counting =False
                     self.threadStarted = False
                     self.phoneSwitch.pack_forget()
-                    self.countdown.config(text="\nPlease straighten the lines\nand\nfill in the gaps\n\n")
+                    self.countdown.config(text=self.salahDisplayText)
                     self.countdown.pack()
-                    self.nextSalah[1] += timedelta(minutes=4)
-            if self.cDownVar=="9" and not self.counting and not self.announcementSet:
-                if self.announcements !=[]:
+                    self.nextSalah[1] += timedelta(minutes=self.salahKeepMinutes)
+            if self.cDownVar=="1" and not self.counting and not self.announcementSet:
+                if self.announcements !=[] and self.staticSlide:
                     for i in range(len(self.announcements)):
                         if self.nextSalah[0] == self.salahNames[self.announcements[i][0]]:
                             self.announcementMsg.config(text=announceMsg1+self.nextSalah[0] + announceMsg2+" "+self.announcements[i][1])
-                            self.nextSalah[1]+=timedelta(minutes=11)
+                            self.nextSalah[1]+=timedelta(minutes=self.keepMinutesAnnouncements)
                             otherSalahs=""
                             for j in range(5):
                                 if self.salahNames[j] == self.salahNames[self.announcements[i][0]]:
@@ -121,7 +133,7 @@ class Timer:
                 #     self.otherFrame[1].setTimerOn(False)
                 #     self.phoneSwitch.pack_forget()
                 #     self.countdown.pack_forget()self
-        elif toStrp(currentTime)>(self.nextSalah[1]+timedelta(minutes=minsBeforeSalah)):
+        elif toStrp(currentTime)>(self.nextSalah[1]+timedelta(minutes=self.salahCountBefore)):
                 
             self.getNextSalah()
             self.threadStarted=False
@@ -166,7 +178,7 @@ class Timer:
             elif self.announcementSet and not self.announcementVoiced:
                 A =  self.announcementMsg.cget("text").replace(announceMsg1,"")
                 A = A.replace(announceMsg2,"").split(" ")
-                cDown = datetime.combine(date.min, (self.nextSalah[1]+timedelta(minutes=minsBeforeSalah)).time()) - datetime.combine(date.min, toStrp(currentTime).time())
+                cDown = datetime.combine(date.min, (self.nextSalah[1]+timedelta(minutes=self.salahCountBefore)).time()) - datetime.combine(date.min, toStrp(currentTime).time())
                 self.cDownVar = str(cDown).replace("0:0","")
                 self.cDownVar = str(self.cDownVar).replace("0:","")
                 if (self.nextSalah[0] == "Zuhr" or self.nextSalah[0] == "Asr") and self.cDownVar == "5:00" and not self.announcementVoiced: 
@@ -183,7 +195,7 @@ class Timer:
                 #     Thread(target=playAnnouncement,args=(A,)).start()
     def setAnnouncements(self,whichSalah=-1):
         
-        if self.announcements != []:
+        if self.announcements != [] and self.slideshowAnnouncement:
             announcementscontent = "Insha'Allah\n"
             for i in range(len(self.announcements)):
                 if self.announcements[i][0] <= whichSalah:
