@@ -24,7 +24,11 @@ firebase_admin.initialize_app(cred,{
     "databaseURL":"https://"+projectName+"-default-rtdb.firebaseio.com",
     "storageBucket": projectName+".appspot.com"
 })
-data = db.reference("users/"+uid+"/receiver").get()
+jsonData = db.reference("users/"+uid).get()
+data = jsonData["frequent"]["receiver"]
+times = jsonData['infrequent']
+with open('times.json', 'w', encoding='utf-8') as f:
+    json.dump(times, f, ensure_ascii=False, indent=4)
 with open('db.json', 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 imageSlides = data['slides']['imageSlide']

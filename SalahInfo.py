@@ -6,7 +6,7 @@ def toStrpDate(st):
 
 class SalahInfo:
 	def __init__(self):
-		self.allTimes = json.load(open("times.json"))
+		self.allTimes = json.load(open("times.json"))['prayerTimes']
 		self.startI=0
 		self.salahI=0
 		self.salahTimes = None
