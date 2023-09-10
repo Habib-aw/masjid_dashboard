@@ -2,7 +2,8 @@ from datetime import datetime,timedelta
 from tkinter import Frame,Label
 from Settings import background, foreground
 class Slide:
-	def __init__(self,root, content,contentFont=35,title=None,titleFont=55,whatTime=None,time=7,howLong=5,frame=None,paddingCtop=10,fg=foreground,titleFg=foreground,bg=background,image=None,announce=False,wraplength=None,smallContent=None,smallContentFont=None):
+	def __init__(self,root, content,contentFont=35,title=None,titleFont=55,whatTime=None,time=7,howLong=5,frame=None,paddingCtop=10,fg=foreground,titleFg=foreground,bg=background,image=None,announce=False,wraplength=None,smallContent=None,smallContentFont=None,video=False):
+		self.video = video
 		if frame !=None:
 			self.frame = frame
 		else:
@@ -13,9 +14,17 @@ class Slide:
 			self.time = datetime.strptime(whatTime,"%I:%M %p")
 			self.howLong = timedelta(minutes=howLong)
 		self.announce = announce
+		self.id = "Title: "+ str(title) +", Content: " +str(content)
+		if video:
+			self.id = "Video"
 	def packSlide(self):
+		if self.video:
+			self.frame.play()
 		self.frame.pack(side='top',fill="both",expand=1)
 	def forgetP(self):
+		if self.video:
+			self.frame.seek(sec=0)
+			self.frame.pause()
 		self.frame.pack_forget()
 	def createFrame(self,root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont,titleFg):
 		self.frame =Frame(root,bg=bg,width=root.winfo_screenwidth())

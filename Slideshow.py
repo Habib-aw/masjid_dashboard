@@ -17,20 +17,12 @@ class Slideshow:
         self.size=0
         self.max=0
         self.timerOn = False
-        # self.setZhikrSlide()
-        schedule.every(1).seconds.do(self.next)
+        self.scheduler=schedule.every(1).seconds.do(self.next)
+    def restartScheduler(self):
+        schedule.clear()
+        self.scheduler=schedule.every(1).seconds.do(self.next)
     def setTimerOn(self,bool):
         self.timerOn=bool
-    # def setZhikrSlide(self):
-    #     englishSlide = Slide(self.root,title="English",content="some",contentFont=55,fg="white",bg="green",paddingCtop=0)
-    #     bengaliSlide = Slide(self.root,title="Bengali",content="some contet",contentFont=55,fg="white",bg="green",paddingCtop=0)
-    #     self.secondHead = Node(englishSlide)
-    #     self.secondHead.next = Node(bengaliSlide)
-    #     self.secondHead.prev=self.secondHead.next
-    #     self.secondHead.next.next = self.secondHead
-    #     self.secondHead.next.prev = self.secondHead
-        # english
-        # bengali bengali
     def swapHeadZhikr(self,A):
         self.secondHead = self.head
         self.head = None
@@ -48,6 +40,7 @@ class Slideshow:
             count+=1
         self.max = self.tail.val.time
         self.count = self.max -1
+        # self.restartScheduler()
     def add(self, val):
         self.size+=1
         if self.head == None:
@@ -56,6 +49,7 @@ class Slideshow:
             self.tail.next = self.head
             self.head.prev = self.tail
             self.ptr=self.head
+            
         else:
             a = Node(val)
             self.tail.next = a
@@ -63,9 +57,19 @@ class Slideshow:
             a.next = self.head
             self.head.prev = a
             self.tail = self.tail.next
+            a.val.time += a.prev.val.time
+            self.max = self.tail.val.time
+            self.count = self.max -1
+        self.restartScheduler()
+        # self.redoTimes()
     def addAll(self,A):
         for x in A:
             self.add(x)
+    def printAll(self):
+        test = self.head
+        for i in range(self.size):
+            print(test.val.time,test.val.id)
+            test = test.next
     def next(self):
         if not self.timerOn:
             if self.size > 1:
