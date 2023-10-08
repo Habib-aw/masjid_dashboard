@@ -37,10 +37,10 @@ class Footer:
         self.clock.pack()
     def createGregorianDate(self,dates,bg,fg,side):
         self.gDate = Label(self.frame1,text=dates[0],font=(fontStyle,dateFont,"bold"),bg=bg,fg=fg)
-        self.gDate.pack(side=side,fill='both',ipadx=15)
+        self.gDate.pack(side=side,fill='both',ipadx=15,expand=1)
     def createHijriDate(self,dates,bg,fg,side):
         self.hDate = Label(self.frame1,text=dates[1],font=(fontStyle,dateFont-12,"bold"),bg=bg,fg=fg)
-        self.hDate.pack(side=side,fill='both',ipadx=15)
+        self.hDate.pack(side=side,fill='both',ipadx=15,expand=1)
     def repeater(self):
         self.time = datetime.now().strftime('%I:%M:%S %p')
         self.clock.config(text=self.time)

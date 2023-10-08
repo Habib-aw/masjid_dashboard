@@ -80,8 +80,9 @@ imageSlides = []
 
 try:
     slides = data['slides']
-    nSlides = slides['normalSlide']
-    iSlides = slides['imageSlide']
+    basicSlides = slides['basic']
+    nSlides = basicSlides['normalSlide']
+    iSlides = basicSlides['imageSlide']
     if(not (isinstance(nSlides,str))):
         for i in range(len(nSlides)):
             normalSlides.append([Slide(root,
@@ -144,27 +145,25 @@ try:
     slideshow.add(eidMubarakSlide)
 except:
     pass
-def opencv(filename):
-    import cv2
+# def opencv(filename):
+#     import cv2
 
-    video = cv2.VideoCapture(filename)
+#     video = cv2.VideoCapture(filename)
 
-    # the frame rate or frames per second
-    frame_rate = video.get(cv2.CAP_PROP_FPS)
+#     # the frame rate or frames per second
+#     frame_rate = video.get(cv2.CAP_PROP_FPS)
 
-    # the total number of frames
-    total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+#     # the total number of frames
+#     total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
 
-    # the duration in seconds
-    duration = total_num_frames / frame_rate
-    return round(duration)
-def createVideoSlide(filename):
-    videoplayer = TkinterVideo(master=root, scaled=True)
-    videoplayer.load(filename)
-    print(opencv(filename))
-    vidSlide= Slide(frame=videoplayer,root=root,content="",time=opencv(filename)+3,video=True)
-    slideshow.add(vidSlide)
-    print(vidSlide.time)
+#     # the duration in seconds
+#     duration = total_num_frames / frame_rate
+#     return round(duration)
+# def createVideoSlide(filename):
+#     videoplayer = TkinterVideo(master=root, scaled=True)
+#     videoplayer.load(filename)
+#     vidSlide= Slide(frame=videoplayer,root=root,content="",time=opencv(filename)+3,video=True)
+#     slideshow.add(vidSlide)
 t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 
 
