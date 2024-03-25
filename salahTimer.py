@@ -104,6 +104,13 @@ class Timer:
                     self.countdown.pack()
                     self.nextSalah[1] += timedelta(minutes=self.salahKeepMinutes)
             if self.cDownVar=="1" and not self.counting and not self.announcementSet:
+                if self.nextSalah[0] == "Maghrib" and (datetime.now().strftime('%A')!="Sunday" and datetime.now().strftime('%A')!="Saturday" and datetime.now().strftime('%A')!="Friday"): 
+                    self.nextSalah[1]+=timedelta(minutes=12)
+                    self.phoneSwitch.pack_forget()
+                    self.countdown.pack_forget()
+                    self.otherSalahs.config(text="Assalamu alaykum\n\nPlease pray Sunnah prayer at home as Maktab is currently ongoing\n\n JazakAllah khair",font=('Arial',80),wraplength=1500,bg="green")
+                    self.otherSalahs.pack(ipady=230)
+                    self.root.config(bg="green")
                 if self.announcements !=[] and self.staticSlide:
                     for i in range(len(self.announcements)):
                         if self.nextSalah[0] == self.salahNames[self.announcements[i][0]]:
@@ -155,12 +162,10 @@ class Timer:
         else:
             self.phoneSwitch.pack_forget()
             if not self.timesChanged:
-                if isRamadan:
-                    if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][1]+":00 AM")):
-                        self.ramadan.setSuhoor()
-                    if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][2]+":00 PM")):
-                        self.ramadan.setIftaar()
-                
+                if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][1]+":00 AM")):
+                    self.ramadan.setSuhoor()
+                if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][2]+":00 PM")):
+                    self.ramadan.setIftaar()
                 for i in range(len(self.changes)):
                     if (not isinstance(self.changes[i][0],str))  and toStrp(currentTime) > self.changes[i][0]:
                         self.salahLabels[self.changes[i][2]].label.config(text=self.changes[i][1])

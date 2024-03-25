@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 # Python
-from tkVideoPlayer import TkinterVideo
+# from tkVideoPlayer import TkinterVideo
 from math import ceil
 from tkinter import Tk,Label
 from ramadan import Ramadan
@@ -164,7 +164,8 @@ except:
 #     videoplayer.load(filename)
 #     vidSlide= Slide(frame=videoplayer,root=root,content="",time=opencv(filename)+3,video=True)
 #     slideshow.add(vidSlide)
-t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
+r=Ramadan(slideshow,root)
+t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,r,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 
 
 
