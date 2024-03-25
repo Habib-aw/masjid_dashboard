@@ -31,12 +31,14 @@ with open('times.json', 'w', encoding='utf-8') as f:
     json.dump(times, f, ensure_ascii=False, indent=4)
 with open('db.json', 'w', encoding='utf-8') as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
-imageSlides = data['slides']['imageSlide']
+imageSlides = data['slides']['basic']['imageSlide']
 bucket = storage.bucket()
+if not os.path.exists(imageDir):
+    os.mkdir(imageDir)
 downloadedImages = os.listdir(imageDir)
 for i in range(len(imageSlides)):
     if imageSlides[i]['imageName'] in downloadedImages:
         continue
     imgName = imageSlides[i]['imageName']
-    blob = bucket.blob(uid+'/'+imgName)
+    blob = bucket.blob(uid+'/images/'+imgName)
     blob.download_to_filename(imageDir+imgName)

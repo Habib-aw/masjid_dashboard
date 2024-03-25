@@ -18,7 +18,10 @@ from Settings import background,foreground,salahTitles,fontStyle,JummahTimes,BMA
 from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
-
+def fixHex(colour):
+    while(len(colour)!=7):
+        colour=colour[0]+"0"+colour[1:]
+    return colour
 db = open('db.json')
 data = json.load(db)
 db.close()
@@ -35,7 +38,7 @@ tmrroData = salahInfo.checkAnnouncemennts()
 changes = tmrroData[1]
 announcements = tmrroData[0]
 slideshow =Slideshow(root)
-f =Footer(root,time['on'],time['textColour'],time['backgroundColour'],gDate['on'],gDate['textColour'],gDate['backgroundColour'],hDate['on'],hDate['textColour'],hDate['backgroundColour'])
+f =Footer(root,time['on'],fixHex(time['textColour']),fixHex(time['backgroundColour']),gDate['on'],fixHex(gDate['textColour']),fixHex(gDate['backgroundColour']),hDate['on'],fixHex(hDate['textColour']),fixHex(hDate['backgroundColour']))
 sTimes = salahInfo.startTimes
 timeChanges = salahInfo.tmrroStartTimes()
 salahContinerframe =Frame(root,bg=background,height=root.winfo_screenheight()-150,width=root.winfo_screenwidth())
@@ -90,10 +93,10 @@ try:
         titleFont=45+(nSlides[i]['font']['textFactor']*5),
         content=nSlides[i]['text'],
         contentFont=35+(nSlides[i]['font']['textFactor']*5),
-        bg=nSlides[i]['colour']['slide'],
+        bg=fixHex(nSlides[i]['colour']['slide']),
         time=nSlides[i]['displayTime'],
-        fg=nSlides[i]['colour']['text'],
-        titleFg=nSlides[i]['colour']['title'],
+        fg=fixHex(nSlides[i]['colour']['text']),
+        titleFg=fixHex(nSlides[i]['colour']['title']),
         ),nSlides[i]['order']])
     if(not (isinstance(iSlides,str))):
         for i in range(len(iSlides)):
@@ -115,10 +118,10 @@ try:
             imageSlides.append([Slide(root,None,
         image=image,
         title=iSlides[i]['title'],
-        bg=iSlides[i]['colour']['slide'],
+        bg=fixHex(iSlides[i]['colour']['slide']),
         time=iSlides[i]['displayTime'],
         titleFont=45+(iSlides[i]['font']['titleFactor']*5),
-        titleFg=iSlides[i]['colour']['title']),
+        titleFg=fixHex(iSlides[i]['colour']['title'])),
         iSlides[i]['order']])
 except Exception as e:
     print("error",e)
