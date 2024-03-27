@@ -86,7 +86,7 @@ class Timer:
                 self.root.config(bg=salahIn2Bg)
                 self.phoneSwitch.pack()
             if self.counting:
-                self.countdown.config(text=self.nextSalah[0]+" salah in\n"+self.cDownVar)
+                self.countdown.config(text=self.nextSalah[0]+" salah in\n"+self.cDownVar,font=(fontStyle,salahIn2Font))
                 if self.cDownVar == "2":
                     if not self.threadStarted:
                         Thread(target=play).start()
@@ -100,7 +100,7 @@ class Timer:
                     self.counting =False
                     self.threadStarted = False
                     self.phoneSwitch.pack_forget()
-                    self.countdown.config(text=self.salahDisplayText)
+                    self.countdown.config(text=self.salahDisplayText,font=(fontStyle,salahIn2Font-30))
                     self.countdown.pack()
                     self.nextSalah[1] += timedelta(minutes=self.salahKeepMinutes)
             if self.cDownVar=="1" and not self.counting and not self.announcementSet:
