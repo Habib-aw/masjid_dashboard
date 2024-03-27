@@ -47,7 +47,7 @@ class Slide:
 			self.imageLabel = Label(self.inFrame,image=image)
 			self.imageLabel.pack(side='left')
 			self.content.pack(side='right')
-		if title != None:
+		if title != None and title != "":
 			self.title = Label(self.frame,text=title,font=('Arial',titleFont,'underline','bold'),bg=bg,fg=titleFg)
 			self.title.pack(side="top")
 		self.inFrame.pack(side='top')

@@ -80,6 +80,7 @@ s1.packSlide()
 slideshow.add(s1)
 normalSlides = []
 imageSlides = []
+photoImageRefs = []  # List to store references to PhotoImage objects
 
 try:
     slides = data['slides']
@@ -99,30 +100,30 @@ try:
         titleFg=fixHex(nSlides[i]['colour']['title']),
         ),nSlides[i]['order']])
     if(not (isinstance(iSlides,str))):
+        maxImgWidth=1900
         for i in range(len(iSlides)):
-            maxImgWidth=1900
-            maxImgHeight=870
-            if iSlides[i]['title'] !="":
-                maxImgHeight=780
+            maxImgHeight = 870 if iSlides[i]['title'] == "" else 780
             try:
-                openedImage = Image.open("images/downloadedImages/"+iSlides[i]['imageName'])
-            except:
+                openedImage = Image.open("images/downloadedImages/" + iSlides[i]['imageName'])
+            except FileNotFoundError:
                 openedImage = Image.open("images/noImgFound.png")
+            
             width, height = openedImage.size
-            imgWidth = round((width/height)*maxImgHeight)
-            imgHeight = maxImgHeight
-            if imgWidth>maxImgWidth:
-                imgWidth=maxImgWidth
-                imgHeight=round((height/width)*maxImgWidth)
-            image = ImageTk.PhotoImage(openedImage.resize((imgWidth,imgHeight),Image.Resampling.LANCZOS))
-            imageSlides.append([Slide(root,None,
-        image=image,
-        title=iSlides[i]['title'],
-        bg=fixHex(iSlides[i]['colour']['slide']),
-        time=iSlides[i]['displayTime'],
-        titleFont=45+(iSlides[i]['font']['titleFactor']*5),
-        titleFg=fixHex(iSlides[i]['colour']['title'])),
-        iSlides[i]['order']])
+            imgWidth = min(round((width / height) * maxImgHeight), maxImgWidth)
+            imgHeight = min(maxImgHeight, round((height / width) * maxImgWidth))
+            
+            # Create ImageTk.PhotoImage object and store a reference
+            photoImage = ImageTk.PhotoImage(openedImage.resize((imgWidth, imgHeight), Image.LANCZOS))
+            photoImageRefs.append(photoImage)
+            
+            imageSlides.append([Slide(root, None,
+                                    image=photoImage,
+                                    title=iSlides[i]['title'],
+                                    bg=fixHex(iSlides[i]['colour']['slide']),
+                                    time=iSlides[i]['displayTime'],
+                                    titleFont=45 + (iSlides[i]['font']['titleFactor'] * 5),
+                                    titleFg=fixHex(iSlides[i]['colour']['title'])),
+                                iSlides[i]['order']])
 except Exception as e:
     print("error",e)
     pass
