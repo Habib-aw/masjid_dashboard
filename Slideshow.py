@@ -21,26 +21,25 @@ class Slideshow:
     def restartScheduler(self):
         schedule.clear()
         self.scheduler=schedule.every(1).seconds.do(self.next)
+    def resetSlideShow(self):
+        self.ptr.prev.val.forgetP()
+        self.head.val.packSlide()
+        self.head.next.next.next= self.head
+        self.tail = self.head.next.next
+        self.tail.next = self.head
+        self.head.prev = self.tail
+        self.ptr=self.head
+        self.size = 3
+
+        # self.head.next= self.head
+        # self.tail = self.head
+        # self.tail.next = self.head
+        # self.head.prev = self.tail
+        # self.ptr=self.head
+        # self.size = 1
     def setTimerOn(self,bool):
         self.timerOn=bool
-    def swapHeadZhikr(self,A):
-        self.secondHead = self.head
-        self.head = None
-        self.addAll(A)
-    def swapHeadNormal(self):
-        self.head = self.secondHead
-    def redoTimes(self):
-        count = 0
-        if self.size<=1:
-            return
-        ptr = self.head.next
-        while count < self.size-1:
-            ptr.val.time +=ptr.prev.val.time
-            ptr = ptr.next
-            count+=1
-        self.max = self.tail.val.time
-        self.count = self.max -1
-        # self.restartScheduler()
+
     def add(self, val):
         self.size+=1
         if self.head == None:
@@ -61,7 +60,6 @@ class Slideshow:
             self.max = self.tail.val.time
             self.count = self.max -1
         self.restartScheduler()
-        # self.redoTimes()
     def addAll(self,A):
         for x in A:
             self.add(x)

@@ -42,3 +42,9 @@ for i in range(len(imageSlides)):
     imgName = imageSlides[i]['imageName']
     blob = bucket.blob(uid+'/images/'+imgName)
     blob.download_to_filename(imageDir+imgName)
+f.close()
+with open('changes.json') as f:
+    changeData = json.load(f)
+changeData['changes'] = True
+with open('changes.json', 'w') as f:
+    json.dump(changeData, f, indent=4)
