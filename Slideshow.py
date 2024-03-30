@@ -48,18 +48,35 @@ class Slideshow:
             self.tail.next = self.head
             self.head.prev = self.tail
             self.ptr=self.head
-            
         else:
-            a = Node(val)
-            self.tail.next = a
-            a.prev = self.tail
-            a.next = self.head
-            self.head.prev = a
+            newNode = Node(val)
+            self.tail.next = newNode
+            newNode.prev = self.tail
+            newNode.next = self.head
+            self.head.prev = newNode
             self.tail = self.tail.next
-            a.val.time += a.prev.val.time
+            newNode.val.time += newNode.prev.val.time
             self.max = self.tail.val.time
             self.count = self.max -1
         self.restartScheduler()
+    def remove_tail(self):
+        if not self.head:
+            return
+
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        else:
+            self.ptr.prev.val.forgetP()
+            self.head.val.packSlide()
+            self.ptr=self.head
+            self.tail = self.tail.prev
+            remTime = self.max - self.tail.val.time
+            self.tail.next = self.head
+            self.head.prev = self.tail
+            self.max -=remTime
+        self.size -= 1
+
     def addAll(self,A):
         for x in A:
             self.add(x)

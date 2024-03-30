@@ -169,7 +169,8 @@ def poll_json():
         print("Changes detected! Setting 'changes' to False.")
         # Set 'changes' to False
         data['changes'] = False
-        slideshow.resetSlideShow()
+        for i in range(len(normalSlides)+len(imageSlides)):
+            slideshow.remove_tail()
         img()
         # Write the updated data back to the JSON file
         with open('changes.json', 'w') as f:
