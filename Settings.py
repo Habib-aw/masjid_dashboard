@@ -27,7 +27,7 @@ salahTimeXpos=0.5
 salahTimeYpos =0.45
 
 #-------------------------------Footer class-------------------------------
-clockFont = 105
+clockFont = 100
 dateFont =55
 #-------------------------------SalahTimer class-------------------------------
 salahIn2Font = 65
