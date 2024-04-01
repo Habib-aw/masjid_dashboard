@@ -19,7 +19,7 @@ from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
 import schedule
-from VideoPlayer import *
+# from VideoPlayer import *
 file_path = 'changes.json'
 
 
@@ -197,21 +197,21 @@ try:
     slideshow.add(eidMubarakSlide)
 except:
     pass
-def opencv(filename):
-    import cv2
+# def opencv(filename):
+#     import cv2
 
-    video = cv2.VideoCapture(filename)
+#     video = cv2.VideoCapture(filename)
 
-    # the frame rate or frames per second
-    frame_rate = video.get(cv2.CAP_PROP_FPS)
+#     # the frame rate or frames per second
+#     frame_rate = video.get(cv2.CAP_PROP_FPS)
 
-    # the total number of frames
-    total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+#     # the total number of frames
+#     total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
 
-    # the duration in seconds
-    duration = total_num_frames / frame_rate
-    return round(duration)
-def createVideoSlide(video_path):
+#     # the duration in seconds
+#     duration = total_num_frames / frame_rate
+#     return round(duration)
+# def createVideoSlide(video_path):
     # videoplayer = TkinterVideo(master=root, scaled=True)
     # videoplayer.load(filename)
     # clip = VideoFileClip(filename)
@@ -229,12 +229,12 @@ def createVideoSlide(video_path):
     # root = tk.Tk()
     # frame = tk.Frame(root)
     # frame.pack()
-    app = VideoPlayerFrame(root,"videos/" +video_path)
-    app.toggle_pause_resume()
-    ta =app.get_video_duration()
+    # app = VideoPlayerFrame(root,"videos/" +video_path)
+    # app.toggle_pause_resume()
+    # ta =app.get_video_duration()
 
-    vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
-    slideshow.add(vidSlide)
+    # vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
+    # slideshow.add(vidSlide)
 r=Ramadan(slideshow,root)
 # for video in data['slides']['basic']['videoSlide']:
 #     createVideoSlide(video['videoName'])
