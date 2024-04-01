@@ -40,7 +40,7 @@ class Timer:
         self.getNextSalah()
         self.countdown = Label(root,font=(fontStyle,salahIn2Font,"bold"),bg=salahIn2Bg,fg=foreground)
         self.counting = True
-        self.phoneSwitch=Label(root,font=(fontStyle,phonSwitchFont,"bold"),text=salahIn2SpaceBetween+"Please switch off your mobile phones",bg=salahIn2Bg,fg=foreground)
+        self.phoneSwitch=Label(root,font=(fontStyle,phonSwitchFont,"bold"),text=salahIn2SpaceBetween+"Please silent your mobile phones",bg=salahIn2Bg,fg=foreground)
         self.otherFrame = Frames
         self.changes = changes
         self.ramadan = ramadan
@@ -60,6 +60,7 @@ class Timer:
             self.setAnnouncements()
         schedule.every(0.2).seconds.do(self.countingDown)
         self.cDownVar = ""
+
     def getNextSalah(self):
         arr = self.salahObj
         currentTime = toStrp(datetime.now().strftime("%I:%M:%S %p"))

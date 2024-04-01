@@ -19,7 +19,8 @@ class Slideshow:
         self.timerOn = False
         self.scheduler=schedule.every(1).seconds.do(self.next)
     def restartScheduler(self):
-        schedule.clear()
+        schedule.cancel_job(self.scheduler)
+        # schedule.clear()
         self.scheduler=schedule.every(1).seconds.do(self.next)
     def resetSlideShow(self):
         self.ptr.prev.val.forgetP()

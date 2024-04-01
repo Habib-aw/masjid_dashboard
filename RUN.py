@@ -19,8 +19,9 @@ from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
 import schedule
-import os
+from VideoPlayer import *
 file_path = 'changes.json'
+
 
 # Check if the file exists
 if not os.path.exists(file_path):
@@ -196,28 +197,51 @@ try:
     slideshow.add(eidMubarakSlide)
 except:
     pass
-# def opencv(filename):
-#     import cv2
+def opencv(filename):
+    import cv2
 
-#     video = cv2.VideoCapture(filename)
+    video = cv2.VideoCapture(filename)
 
-#     # the frame rate or frames per second
-#     frame_rate = video.get(cv2.CAP_PROP_FPS)
+    # the frame rate or frames per second
+    frame_rate = video.get(cv2.CAP_PROP_FPS)
 
-#     # the total number of frames
-#     total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
+    # the total number of frames
+    total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
 
-#     # the duration in seconds
-#     duration = total_num_frames / frame_rate
-#     return round(duration)
-# def createVideoSlide(filename):
-#     videoplayer = TkinterVideo(master=root, scaled=True)
-#     videoplayer.load(filename)
-#     vidSlide= Slide(frame=videoplayer,root=root,content="",time=opencv(filename)+3,video=True)
-#     slideshow.add(vidSlide)
+    # the duration in seconds
+    duration = total_num_frames / frame_rate
+    return round(duration)
+def createVideoSlide(video_path):
+    # videoplayer = TkinterVideo(master=root, scaled=True)
+    # videoplayer.load(filename)
+    # clip = VideoFileClip(filename)
+
+    # Get the duration of the video
+    # duration = round(clip.duration)
+
+    # Display the first frame of the video
+    # frame = clip.get_frame(0)
+    # frame = Image.fromarray(frame)
+    # frame = ImageTk.PhotoImage(frame)
+    # label = tk.Label(root, image=frame)
+    # video_path = "video.mp4"
+
+    # root = tk.Tk()
+    # frame = tk.Frame(root)
+    # frame.pack()
+    app = VideoPlayerFrame(root,"videos/" +video_path)
+    app.toggle_pause_resume()
+    ta =app.get_video_duration()
+
+    vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
+    slideshow.add(vidSlide)
 r=Ramadan(slideshow,root)
+# for video in data['slides']['basic']['videoSlide']:
+#     createVideoSlide(video['videoName'])
+
 t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,r,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 img()
+
 
 schedule.every(POLL_INTERVAL_SECONDS).seconds.do(poll_json)
 
