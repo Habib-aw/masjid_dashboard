@@ -24,7 +24,7 @@ class Footer:
         if hDateOn:
             self.createHijriDate(dates,hDateBg,hDateFg,hDateSide)
         if hDateOn or gDateOn:
-            self.frame1.pack(side="bottom",fill='x',expand=1)
+            self.frame1.pack(side="right",fill='x',expand=1)
         if hDateOn or gDateOn or timeOn:
             self.frame.pack(side="bottom",fill='x')
         
@@ -32,15 +32,15 @@ class Footer:
         self.frame2 = Frame(self.frame,width=width,bg=bg)
         self.clock = Label(self.frame2,font=(fontStyle,clockFont,"bold"),bg=bg,fg=fg)
         self.time = datetime.now().strftime('%I:%M:%S %p')
-        self.frame2.pack(side="top",fill='both',expand=1)
+        self.frame2.pack(side="left",fill='both',expand=1)
         self.frame2.tkraise()
-        self.clock.pack()
+        self.clock.pack(side='bottom')
     def createGregorianDate(self,dates,bg,fg,side):
         self.gDate = Label(self.frame1,text=dates[0],font=(fontStyle,dateFont,"bold"),bg=bg,fg=fg)
-        self.gDate.pack(side=side,fill='both',ipadx=15,expand=1)
+        self.gDate.pack(side='top',fill='both',ipadx=15,expand=1)
     def createHijriDate(self,dates,bg,fg,side):
         self.hDate = Label(self.frame1,text=dates[1],font=(fontStyle,dateFont-12,"bold"),bg=bg,fg=fg)
-        self.hDate.pack(side=side,fill='both',ipadx=15,expand=1)
+        self.hDate.pack(side='bottom',fill='both',ipadx=15,expand=1)
     def repeater(self):
         self.time = datetime.now().strftime('%I:%M:%S %p')
         self.clock.config(text=self.time)
