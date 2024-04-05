@@ -19,7 +19,7 @@ from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
 import schedule
-# from VideoPlayer import *
+from VideoPlayer import *
 file_path = 'changes.json'
 
 
@@ -197,48 +197,19 @@ try:
     slideshow.add(eidMubarakSlide)
 except:
     pass
-# def opencv(filename):
-#     import cv2
 
-#     video = cv2.VideoCapture(filename)
+def createVideoSlide(video_path):
+    app = VideoPlayerFrame(root,"videos/" +video_path)
+    app.toggle_pause_resume()
+    ta =app.get_video_duration()
 
-#     # the frame rate or frames per second
-#     frame_rate = video.get(cv2.CAP_PROP_FPS)
+    vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
+    slideshow.add(vidSlide)
 
-#     # the total number of frames
-#     total_num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT)
-
-#     # the duration in seconds
-#     duration = total_num_frames / frame_rate
-#     return round(duration)
-# def createVideoSlide(video_path):
-    # videoplayer = TkinterVideo(master=root, scaled=True)
-    # videoplayer.load(filename)
-    # clip = VideoFileClip(filename)
-
-    # Get the duration of the video
-    # duration = round(clip.duration)
-
-    # Display the first frame of the video
-    # frame = clip.get_frame(0)
-    # frame = Image.fromarray(frame)
-    # frame = ImageTk.PhotoImage(frame)
-    # label = tk.Label(root, image=frame)
-    # video_path = "video.mp4"
-
-    # root = tk.Tk()
-    # frame = tk.Frame(root)
-    # frame.pack()
-    # app = VideoPlayerFrame(root,"videos/" +video_path)
-    # app.toggle_pause_resume()
-    # ta =app.get_video_duration()
-
-    # vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
-    # slideshow.add(vidSlide)
 r=Ramadan(slideshow,root)
 # for video in data['slides']['basic']['videoSlide']:
 #     createVideoSlide(video['videoName'])
-
+createVideoSlide("eid-video.mp4")
 t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,r,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 img()
 
