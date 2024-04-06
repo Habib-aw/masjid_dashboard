@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 # Python
 # from tkVideoPlayer import TkinterVideo
+import subprocess
 from math import ceil
 from tkinter import Tk,Label
 from ramadan import Ramadan
@@ -19,7 +20,8 @@ from datetime import datetime,date
 from hijri_converter import Gregorian
 import json
 import schedule
-from VideoPlayer import *
+# from VideoPlayer import *
+from tkVideoPlayer import TkinterVideo
 file_path = 'changes.json'
 
 
@@ -198,12 +200,24 @@ try:
 except:
     pass
 
-def createVideoSlide(video_path):
-    app = VideoPlayerFrame(root,"videos/" +video_path)
-    app.toggle_pause_resume()
-    ta =app.get_video_duration()
+# def createVideoSlide(video_path):
+#     app = VideoPlayerFrame(root,"videos/" +video_path)
+#     app.toggle_pause_resume()
+#     ta =app.get_video_duration()
 
-    vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
+#     vidSlide= Slide(frame=app,root=root,content="",time=ta,video=True)
+#     slideshow.add(vidSlide)
+def get_length(filename):
+    result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+                             "format=duration", "-of",
+                             "default=noprint_wrappers=1:nokey=1", filename],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT)
+    return ceil(float(result.stdout))
+def createVideoSlide(filename):
+    videoplayer = TkinterVideo(master=root, scaled=True)
+    videoplayer.load("videos/"+filename)
+    vidSlide= Slide(frame=videoplayer,root=root,content="",time=get_length("videos/"+filename),video=True)
     slideshow.add(vidSlide)
 
 r=Ramadan(slideshow,root)

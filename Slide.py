@@ -19,12 +19,14 @@ class Slide:
 			self.id = "Video"
 	def packSlide(self):
 		if self.video:
-			self.frame.toggle_pause_resume()
+			self.frame.play()
+			# self.frame.toggle_pause_resume()
 		self.frame.pack(side='top',fill="both",expand=1)
 	def forgetP(self):
 		if self.video:
-			self.frame.reset_video()
-			# self.frame.pause()
+			# self.frame.reset_video()
+			self.frame.seek(sec=0)
+			self.frame.pause()
 		self.frame.pack_forget()
 	def createFrame(self,root,content,contentFont,title,titleFont,paddingCtop,fg,bg,image,wraplength,smallContent,smallContentFont,titleFg):
 		self.frame =Frame(root,bg=bg,width=root.winfo_screenwidth())
