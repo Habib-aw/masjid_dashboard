@@ -80,9 +80,19 @@ Label(salahContinerframe,image=new_logo).place(relx=BMA_logoPositioningRelx,rely
 s1 = Slide(root,
 content="",
 frame=salahContinerframe,
-time=10
+time=20
 )
-
+s2 = Slide(root,
+title="Enrolling Now",
+content="""Evening Madrasah
+Monday - Thursday 5-7pm
+Please contact
+07301766198
+""",
+contentFont=90,
+titleFont=160,
+time=8,
+)
 
 hijri = Gregorian(int(datetime.now().year), datetime.now().month, datetime.now().day).to_hijri()
 
@@ -99,7 +109,7 @@ if hijri.month_name() =="Ramadhan":
 
 
 s1.packSlide()
-slideshow.add(s1)
+slideshow.addAll([s1,s2])
 normalSlides = []
 imageSlides = []
 photoImageRefs = []  # List to store references to PhotoImage objects
