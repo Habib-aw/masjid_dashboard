@@ -14,7 +14,7 @@
 
 ## About The Project
 
-![Preview](Images/preview.png)
+![Preview](images/preview.png)
 
 ### Purpose of project
 
