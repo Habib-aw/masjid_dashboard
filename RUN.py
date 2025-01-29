@@ -60,7 +60,7 @@ slideshow =Slideshow(root)
 def get_days_till_ramadan():
     hijri_year = Gregorian.today().to_hijri().year
     f = '%b %d %Y %I:%M%p'
-    ramadan_gregorian = Hijri(hijri_year, 7, 29).to_gregorian()
+    ramadan_gregorian = Hijri(hijri_year, 9, 1).to_gregorian()
     ramadan_dt = datetime.strptime(ramadan_gregorian.strftime(f),f)
     return (ramadan_dt - datetime.now()).days
 
@@ -79,7 +79,7 @@ if(daysTillRamadan<1):
     smallContent=""
     smallContentFont=0
 if daysTillRamadan <= 60 and daysTillRamadan >= -1:
-    s3 = Slide(root,title=ramadanCountDownTitle,content=ramadanCountDownMsg,contentFont=ramadanCountDownContentFont,titleFont=ramadanCountDownTitleFont,smallContent=smallContent,smallContentFont=smallContentFont)
+    s3 = Slide(root,title=ramadanCountDownTitle,content=ramadanCountDownMsg,contentFont=ramadanCountDownContentFont,titleFont=ramadanCountDownTitleFont,smallContent=smallContent,smallContentFont=smallContentFont,bg="green")
 
 # Schedule the polling task
 
