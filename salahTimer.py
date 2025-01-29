@@ -109,9 +109,9 @@ class Timer:
                     self.nextSalah[1]+=timedelta(minutes=12)
                     self.phoneSwitch.pack_forget()
                     self.countdown.pack_forget()
-                    self.otherSalahs.config(text="Assalamu alaykum\n\nPlease pray Sunnah prayer at home as Maktab is currently ongoing\n\n JazakAllah khair",font=('Arial',80),wraplength=1500,bg="green")
+                    self.otherSalahs.config(text="Assalamu alaykum\n\nPlease pray Sunnah prayer at home as Maktab is currently ongoing\n\n JazakAllah khair",font=('Arial',80),wraplength=1500,bg="red")
                     self.otherSalahs.pack(ipady=230)
-                    self.root.config(bg="green")
+                    self.root.config(bg="red")
                 if self.announcements !=[] and self.staticSlide:
                     for i in range(len(self.announcements)):
                         if self.nextSalah[0] == self.salahNames[self.announcements[i][0]]:
