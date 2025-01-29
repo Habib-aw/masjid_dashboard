@@ -17,7 +17,7 @@ from salahTimer import Timer
 # Other
 from Settings import background,foreground,salahTitles,fontStyle,JummahTimes,BMA_logoLength,BMA_logoWidth,BMA_logoPositioningRelx,BMA_logoPositioningRely,x2,x1,x,y1,y,jummahXpos,jummahYpos,jummahTitleXpos,jummahTitleYpos,salahContainerFont,isRamadan
 from datetime import datetime,date
-from hijri_converter import Gregorian
+from hijri_converter import Hijri,Gregorian
 import json
 import schedule
 # from VideoPlayer import *
@@ -57,6 +57,29 @@ changes = tmrroData[1]
 announcements = tmrroData[0]
 slideshow =Slideshow(root)
 
+def get_days_till_ramadan():
+    hijri_year = Gregorian.today().to_hijri().year
+    f = '%b %d %Y %I:%M%p'
+    ramadan_gregorian = Hijri(hijri_year, 7, 29).to_gregorian()
+    ramadan_dt = datetime.strptime(ramadan_gregorian.strftime(f),f)
+    return (ramadan_dt - datetime.now()).days
+
+daysTillRamadan = get_days_till_ramadan()
+ramadanCountDownTitle= "Days until Ramadan"
+ramadanCountDownMsg = str(daysTillRamadan)
+ramadanCountDownContentFont =450
+ramadanCountDownTitleFont =100
+smallContent="Subject to moon sighting"
+smallContentFont=30
+if(daysTillRamadan<1):
+    ramadanCountDownMsg = "Ramadan Mubarak"
+    ramadanCountDownTitle=""
+    ramadanCountDownContentFont =250
+    ramadanCountDownTitleFont =0
+    smallContent=""
+    smallContentFont=0
+if daysTillRamadan <= 60 and daysTillRamadan >= -1:
+    s3 = Slide(root,title=ramadanCountDownTitle,content=ramadanCountDownMsg,contentFont=ramadanCountDownContentFont,titleFont=ramadanCountDownTitleFont,smallContent=smallContent,smallContentFont=smallContentFont)
 
 # Schedule the polling task
 
@@ -110,6 +133,10 @@ if hijri.month_name() =="Ramadhan":
 
 s1.packSlide()
 slideshow.addAll([s1,s2])
+try:
+    slideshow.add(s3)
+except:
+    pass
 normalSlides = []
 imageSlides = []
 photoImageRefs = []  # List to store references to PhotoImage objects
