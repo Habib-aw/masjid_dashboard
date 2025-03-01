@@ -105,13 +105,13 @@ class Timer:
                     self.countdown.pack()
                     self.nextSalah[1] += timedelta(minutes=self.salahKeepMinutes)
             if self.cDownVar=="1" and not self.counting and not self.announcementSet:
-                if self.nextSalah[0] == "Maghrib" and (datetime.now().strftime('%A')!="Sunday" and datetime.now().strftime('%A')!="Saturday" and datetime.now().strftime('%A')!="Friday"): 
-                    self.nextSalah[1]+=timedelta(minutes=12)
-                    self.phoneSwitch.pack_forget()
-                    self.countdown.pack_forget()
-                    self.otherSalahs.config(text="Assalamu alaykum\n\nPlease pray Sunnah prayer at home as Maktab is currently ongoing\n\n JazakAllah khair",font=('Arial',80),wraplength=1500,bg="red")
-                    self.otherSalahs.pack(ipady=230)
-                    self.root.config(bg="red")
+                # if self.nextSalah[0] == "Maghrib" and (datetime.now().strftime('%A')!="Sunday" and datetime.now().strftime('%A')!="Saturday" and datetime.now().strftime('%A')!="Friday"): 
+                #     self.nextSalah[1]+=timedelta(minutes=12)
+                #     self.phoneSwitch.pack_forget()
+                #     self.countdown.pack_forget()
+                #     self.otherSalahs.config(text="Assalamu alaykum\n\nPlease pray Sunnah prayer at home as Maktab is currently ongoing\n\n JazakAllah khair",font=('Arial',80),wraplength=1500,bg="red")
+                #     self.otherSalahs.pack(ipady=230)
+                #     self.root.config(bg="red")
                 if self.announcements !=[] and self.staticSlide:
                     for i in range(len(self.announcements)):
                         if self.nextSalah[0] == self.salahNames[self.announcements[i][0]]:
