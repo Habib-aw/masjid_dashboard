@@ -163,10 +163,10 @@ class Timer:
         else:
             self.phoneSwitch.pack_forget()
             if not self.timesChanged:
-                # if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][1]+":00 AM")):
-                #     self.ramadan.setSuhoor()
-                # if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][2]+":00 PM")):
-                #     self.ramadan.setIftaar()
+                if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][1]+":00 AM")):
+                    self.ramadan.setSuhoor()
+                if(toStrp(currentTime) > toStrp(self.ramadan.RamadanTimes[0][2]+":00 PM")):
+                    self.ramadan.setIftaar()
                 for i in range(len(self.changes)):
                     if (not isinstance(self.changes[i][0],str))  and toStrp(currentTime) > self.changes[i][0]:
                         self.salahLabels[self.changes[i][2]].label.config(text=self.changes[i][1])

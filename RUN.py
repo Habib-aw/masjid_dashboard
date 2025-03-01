@@ -71,7 +71,7 @@ ramadanCountDownContentFont =450
 ramadanCountDownTitleFont =100
 smallContent="Subject to moon sighting"
 smallContentFont=30
-if(daysTillRamadan<1):
+if(daysTillRamadan<1 and daysTillRamadan>=-1  ):
     ramadanCountDownMsg = "Ramadan Mubarak"
     ramadanCountDownTitle=""
     ramadanCountDownContentFont =250
@@ -116,7 +116,27 @@ contentFont=90,
 titleFont=160,
 time=8,
 )
+txt = """
+Assalamu Alaikum Wa Rahmatullah, Respected Muslims,
 
+First and foremost, we express our heartfelt gratitude to Allah Almighty for granting us the ability to perform Tarawih prayers peacefully last night.
+
+A sincere thank you to our respected Muslim brothers who made great efforts to pray in a limited space and contributed to the smooth running of the mosque.
+
+We pray that Allah grants us the ability to remain steadfast on the path of Deen and continue supporting the mosque throughout this blessed month and our entire lives.
+
+May Allah accept our efforts and guide us always. Ameen.
+Imam
+"""
+bng_txt = """আসসালামু আলাইকুম ওয়া রহমাতুল্লাহ, সম্মানিত মুসল্লী ভাইয়েরা
+
+প্রথমত, আমরা গত রাতে শান্তিপূর্ণভাবে তারাবিহ নামাজ আদায় করার সুযোগ দেওয়ার জন্য মহান আল্লাহর কাছে আন্তরিক কৃতজ্ঞতা প্রকাশ করছি।
+আমাদের সম্মানিত মুসলিম ভাইদের প্রতি আন্তরিক কৃতজ্ঞতা, যারা সীমিত স্থানে নামাজ আদায়ের জন্য প্রচুর প্রচেষ্টা করেছেন এবং মসজিদের সুষ্ঠু পরিচালনায় অবদান রেখেছেন।
+
+আমরা প্রার্থনা করি যে আল্লাহ আমাদেরকে এই পবিত্র মাস এবং আমাদের সমগ্র জীবন জুড়ে দ্বীনের পথে অবিচল থাকার এবং মসজিদকে সমর্থন করার তাওফিক দান করুন।
+
+আল্লাহ আমাদের প্রচেষ্টা কবুল করুন এবং আমাদের সর্বদা পথ দেখান। আমিন।
+"""
 hijri = Gregorian(int(datetime.now().year), datetime.now().month, datetime.now().day).to_hijri()
 
 if hijri.month_name() =="Dhu al-Hijjah":
@@ -126,15 +146,20 @@ if hijri.month_name() =="Ramadhan":
     ramadanDay = hijri.day
     ramadanDaySlide = Slide(root,title="Ramadan Day",content=ramadanDay,contentFont=450,titleFont=100)
     if ramadanDay >25:
-        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:30 AM\n\n3rd Jama'ah: 9:30 AM",contentFont=100,bg='black')
-    if ramadanDay <= 12 and hijri.year == 1444:
-        gatheringSlide = Slide(root, title="Iftaar gathering this monday",titleFont=100,content="On monday 3rd of April (12th Ramadan),\nBaitul Mamur Academy would like to invite you to an iftaar gathering,\nPlease come and bring your friends & family to this barakah filled event\nWe look forward to seeing you all\nInsha'Allah",contentFont=65)
+        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:30 AM\n\n3rd Jama'ah: 10:00 AM",contentFont=100,bg='black')
+    if ramadanDay < 3:
+        rmd_start_msg = Slide(root,content=txt,contentFont=40,bg='black')
+        bng_rmd_start_msg = Slide(root,content=bng_txt,contentFont=40,bg='black')
 
 
 s1.packSlide()
 slideshow.addAll([s1,s2])
 try:
     slideshow.add(s3)
+except:
+    pass
+try:
+    slideshow.addAll([rmd_start_msg,bng_rmd_start_msg])
 except:
     pass
 normalSlides = []
@@ -257,11 +282,11 @@ def get_length(filename):
 #     vidSlide= Slide(frame=videoplayer,root=root,content="",time=get_length("videos/"+filename),video=True)
 #     slideshow.add(vidSlide)
 
-# r=Ramadan(slideshow,root)
+r=Ramadan(slideshow,root)
 # for video in data['slides']['basic']['videoSlide']:
 #     createVideoSlide(video['videoName'])
 # createVideoSlide("eid-video.mp4")
-t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
+t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,r,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 img()
 
 
