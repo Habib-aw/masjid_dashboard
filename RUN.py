@@ -284,11 +284,11 @@ def get_length(filename):
 #     vidSlide= Slide(frame=videoplayer,root=root,content="",time=get_length("videos/"+filename),video=True)
 #     slideshow.add(vidSlide)
 
-r=Ramadan(slideshow,root)
+# r=Ramadan(slideshow,root)
 # for video in data['slides']['basic']['videoSlide']:
 #     createVideoSlide(video['videoName'])
 # createVideoSlide("eid-video.mp4")
-t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,r,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
+t = Timer(root,salahInfo.salahTimesObj,[f,slideshow],changes,announcements,timeChanges,salahLabels,None,announcementsData['minutes'],announcementsData['slideshow'],announcementsData['staticSlide'],salahCountdown['countBefore'],salahCountdown['displayText'],salahCountdown['keepMinutes'],salahCountdown['on'])
 img()
 
 
