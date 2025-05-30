@@ -141,7 +141,7 @@ hijri = Gregorian(int(datetime.now().year), datetime.now().month, datetime.now()
 
 if hijri.month_name() =="Dhu al-Hijjah":
     if hijri.day <10 and hijri.day>3:
-        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:00 AM\n\n3rd Jama'ah: 9:30 AM",contentFont=100,bg='black')
+        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:00 AM\n\n3rd Jama'ah: 10:30 AM",contentFont=100,bg='black')
 if hijri.month_name() =="Ramadhan":
     ramadanDay = hijri.day
     ramadanDaySlide = Slide(root,title="Ramadan Day",content=ramadanDay,contentFont=450,titleFont=100)
