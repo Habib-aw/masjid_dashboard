@@ -146,7 +146,7 @@ if hijri.month_name() =="Ramadhan":
     ramadanDay = hijri.day
     ramadanDaySlide = Slide(root,title="Ramadan Day",content=ramadanDay,contentFont=450,titleFont=100)
     if ramadanDay >25:
-        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:00 AM\n\n2nd Jama'ah: 8:30 AM\n\n3rd Jama'ah: 10:00 AM",contentFont=100,bg='black')
+        eidJamaahSlide = Slide(root,title="EID JAMA'AH",content="1st Jama'ah: 7:30 AM\n\n2nd Jama'ah: 8:30 AM\n\n3rd Jama'ah: 10:00 AM",contentFont=100,bg='black')
     if ramadanDay <= 13 and hijri.year == 1446:
         gatheringSlide = Slide(root,content="Special Iftar gathering\non 13th Ramadan\n Everyone is Welcome",contentFont=120,bg='green',paddingCtop=100)
     if ramadanDay < 3:
